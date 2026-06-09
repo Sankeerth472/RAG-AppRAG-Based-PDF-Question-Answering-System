@@ -1,18 +1,23 @@
 import logging
+import os
 
 from qdrant_client import QdrantClient
 from sentence_transformers import SentenceTransformer
 
 logger = logging.getLogger(__name__)
 
-QDRANT_PATH = "qdrant_storage_v2"
-COLLECTION_NAME = "documents"
-MODEL_NAME = "all-MiniLM-L6-v2"
+QDRANT_HOST = os.getenv("QDRANT_HOST", "localhost")
+QDRANT_PORT = int(os.getenv("QDRANT_PORT", 6333))
+COLLECTION_NAME = os.getenv("QDRANT_COLLECTION", "documents")
+MODEL_NAME = os.getenv("EMBEDDING_MODEL", "all-MiniLM-L6-v2")
 
 
 def get_client() -> QdrantClient:
     try:
-        client = QdrantClient(path=QDRANT_PATH)
+        client = QdrantClient(
+            host=QDRANT_HOST,
+            port=QDRANT_PORT
+        )
 
         logger.info("Qdrant client initialized successfully")
 

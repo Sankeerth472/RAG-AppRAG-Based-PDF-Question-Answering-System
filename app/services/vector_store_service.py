@@ -1,18 +1,22 @@
 import logging
 import uuid
+import os
 
 from qdrant_client import QdrantClient
 from qdrant_client.models import Distance, VectorParams, PointStruct
 
 logger = logging.getLogger(__name__)
 
-COLLECTION_NAME = "documents"
-QDRANT_PATH = "qdrant_storage_v2"
+COLLECTION_NAME = os.getenv("QDRANT_COLLECTION", "documents")
 
 
 def get_client() -> QdrantClient:
     try:
-        client = QdrantClient(path=QDRANT_PATH)
+        client = QdrantClient(
+            host=os.getenv("QDRANT_HOST", "localhost"),
+            port=int(os.getenv("QDRANT_PORT", 6333))
+        )
+
         logger.info("Qdrant client initialized successfully")
         return client
 

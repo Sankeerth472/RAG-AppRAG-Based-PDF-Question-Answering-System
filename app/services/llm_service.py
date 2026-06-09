@@ -1,10 +1,11 @@
 import requests
 import logging
+import os
 
 logger = logging.getLogger(__name__)
 
-OLLAMA_URL = "http://localhost:11434/api/generate"
-MODEL_NAME = "llama3"
+OLLAMA_URL = os.getenv("OLLAMA_URL", "http://localhost:11434/api/generate")
+MODEL_NAME = os.getenv("OLLAMA_MODEL", "llama3")
 
 
 def generate_answer(question: str, context_chunks: list) -> str:
